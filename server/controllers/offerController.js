@@ -103,3 +103,35 @@ export async function createOffer(req, res, next) {
    next(ApiError.internal('Не удалось добавить предложение: ' + error.message));
  }
 }
+
+export async function getFavoriteOffers(req, res, next) {
+  try {
+        const favoriteOffers = await Offer.findAll({
+            where: { isFavorite: true }
+        });
+
+        const adapted = favoriteOffers.map(adaptOfferToClient);
+        res.json(adapted);
+    } catch (error) {
+        console.error(error);
+        next(ApiError.internal('Не удалось получить избранные предложения'));
+    }
+}
+
+export async function toggleFavorite(req, res, next) {
+  try {
+    const { offerId, status } = req.params;
+
+    const offer = await Offer.findByPk(offerId);
+    if (!offer) {
+      return next(ApiError.notfound('Предложение не найдено'));
+    }
+
+    offer.isFavorite = status === '1';
+    await offer.save();
+
+    res.json(offer);
+  } catch (error) {
+    next(ApiError.internal('Ошибка при обновлении статуса избранного'));
+  }
+}
