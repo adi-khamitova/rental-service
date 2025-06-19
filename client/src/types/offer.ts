@@ -31,6 +31,7 @@ type FullOffer = {
     host: HostOffer;
     images: string[];
     maxAdults: number;
+    previewImage: string;
 };
 
 export type OffersList = {
@@ -46,4 +47,4 @@ export type OffersList = {
     previewImage: string;
 };
 
-export { FullOffer };
+export { FullOffer, CityOffer };

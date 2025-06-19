@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from 'react';
+// import { useState } from 'react';
 import { AppRoute } from "../../const";
 
 type CitiesCardProps = {
@@ -10,13 +10,16 @@ type CitiesCardProps = {
   isPremium: boolean;
   previewImage: string;
   rating: number;
+  onHover: (id: string) => void;
 }
 
-function CitiesCard({ id, title, type, price, previewImage, isPremium, rating }: CitiesCardProps) {
-// function CitiesCard({ title, type, price, previewImage, rating }: CitiesCardProps) {
-    const [,setOfferId] = useState('');
-  return (
-    <article className="cities__card place-card" onMouseOver={()=>setOfferId(id)} onMouseOut={() => setOfferId('')}>
+function CitiesCard ({id, title, type, price, isPremium, previewImage, rating, onHover}: CitiesCardProps) {
+    return(
+        <article 
+          className="cities__card place-card" 
+          onMouseEnter={() => onHover(id)} 
+          onMouseLeave={() => onHover('')}
+        >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
@@ -42,7 +45,7 @@ function CitiesCard({ id, title, type, price, previewImage, isPremium, rating }:
           </div>
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">
-              <span style={{width: `${rating}%`}}></span>
+              <span style={{width: `${rating * 20}%`}}></span>
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
